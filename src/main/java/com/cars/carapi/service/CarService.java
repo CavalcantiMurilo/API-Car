@@ -4,36 +4,42 @@ import com.cars.carapi.model.Car;
 import com.cars.carapi.repository.ICarRepository;
 
 import jakarta.transaction.Transactional;
+//import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
+//@Slf4j
 @Service
 public class CarService {
 
     @Autowired
     private ICarRepository carRepository;
 
-    public List<Car> listAll(){
+    public List<Car> listAll() {
         List<Car> car = carRepository.findAll();
         return car.stream().toList();
     }
 
-    public void createCar(Car car){
+    public void createCar(Car car) {
         carRepository.save(car);
     }
 
-    public Car updateCar(Car car){
+    public Car updateCar(Car car) {
         return this.carRepository.save(car);
     }
 
-    public void deleteCar(Long id){
-        Car car = carRepository.findById(id).get();
-        carRepository.delete(car);
+    public void deleteCar(Long id) {
+        try {
+            Car car = carRepository.findById(id).get();
+            carRepository.delete(car);
+        }
+        catch(Exception e){
+            System.out.println("oiii");
+        }
     }
-
 
 
 //    @Transactional
@@ -58,7 +64,6 @@ public class CarService {
 //
 //       this.carRepository.deleteById(id);
 //    }
-
 
 
 }

@@ -13,16 +13,16 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCar;
 
-    @Column(nullable = false)
+    @Column(length = 15, nullable = false)
     private String brandCar;
 
-    @Column(nullable = false)
+    @Column(length = 15, nullable = false)
     private String modelCar;
 
-    @Column(nullable = false)
+    @Column(length = 4, nullable = false)
     private String yearCar;
 
-    @Column(nullable = false)
+    @Column(length = 10, nullable = false)
     private String colorCar;
 
 
