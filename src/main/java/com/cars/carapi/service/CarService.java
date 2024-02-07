@@ -1,69 +1,58 @@
 package com.cars.carapi.service;
 
 import com.cars.carapi.model.Car;
+import com.cars.carapi.model.CarDTO;
 import com.cars.carapi.repository.ICarRepository;
 
 import jakarta.transaction.Transactional;
-//import lombok.extern.slf4j.Slf4j;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-//@Slf4j
+
 @Service
 public class CarService {
 
     @Autowired
     private ICarRepository carRepository;
 
-    public List<Car> listAll() {
+    public List<CarDTO> listAll() {
         List<Car> car = carRepository.findAll();
-        return car.stream().toList();
+        return car.stream().map(CarDTO::new).toList(); //percorre e converte para o DTO
     }
 
-    public void createCar(Car car) {
-        carRepository.save(car);
+    public void createCar(CarDTO car) {
+        Car carEntity = new Car(car);
+        carRepository.save(carEntity);
     }
 
-    public Car updateCar(Car car) {
-        return this.carRepository.save(car);
+    public CarDTO updateCar(CarDTO car) {
+        Car carEntity = new Car(car);
+        return new CarDTO(this.carRepository.save(carEntity));
     }
 
-    public void deleteCar(Long id) {
-        try {
-            Car car = carRepository.findById(id).get();
-            carRepository.delete(car);
-        }
-        catch(Exception e){
-            System.out.println("oiii");
-        }
-    }
-
-
-//    @Transactional
-//    public Car createCar(Car obj) {
-//        obj.setIdCar(null); //garante que cria um novo id
-//        obj = this.carRepository.save(obj);
-//
-//        return obj;
-//    }
-
-//    @Transactional
-//    public Car updateCar(Car obj) {
-//        Car newObj = findById(obj.getIdCar());
-//
-//        newObj.setModelCar(obj.getBrandCar());
-//
-//        return this.carRepository.save(newObj);
-//    }
-//
 //    public void deleteCar(Long id) {
-//       findById(id);
 //
-//       this.carRepository.deleteById(id);
+//        Car car = carRepository.findById(id).get();
+//        carRepository.delete(car);
+//
 //    }
+
+    public ResponseEntity<Void> deleteCar(Long id) {
+
+        return carRepository.findById(id).map(item -> {
+            carRepository.deleteById(id);
+            return ResponseEntity.noContent().<Void>build();
+        }).orElse(ResponseEntity.notFound().build());
+
+    }
+
+    public CarDTO listById(Long id){
+        return new CarDTO(carRepository.findById(id).get());
+    }
 
 
 }
