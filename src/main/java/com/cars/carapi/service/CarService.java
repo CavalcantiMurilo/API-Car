@@ -34,12 +34,9 @@ public class CarService {
         return new CarDTO(this.carRepository.save(carEntity));
     }
 
-//    public void deleteCar(Long id) {
-//
-//        Car car = carRepository.findById(id).get();
-//        carRepository.delete(car);
-//
-//    }
+
+
+
 
     public ResponseEntity<Void> deleteCar(Long id) {
 

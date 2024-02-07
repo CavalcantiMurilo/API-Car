@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -18,7 +17,7 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    @CrossOrigin
+    @CrossOrigin //resolve problema de CORS
     @GetMapping
     public List<CarDTO> listAll() {
         return carService.listAll();
@@ -30,17 +29,20 @@ public class CarController {
         carService.createCar(car);
     }
 
+    @CrossOrigin
     @PutMapping
     public CarDTO updateCar(@RequestBody CarDTO car) {
         return carService.updateCar(car);
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
         return ResponseEntity.ok().build();
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
     public CarDTO listById(@PathVariable Long id) {
         return carService.listById(id);
