@@ -17,6 +17,7 @@ public class CarController {
     @Autowired
     private CarService carService;
 
+    @CrossOrigin
     @GetMapping
     public List<Car> listAll(){
         return carService.listAll();
