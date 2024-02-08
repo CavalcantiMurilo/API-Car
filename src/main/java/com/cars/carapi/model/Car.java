@@ -3,6 +3,7 @@ package com.cars.carapi.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -11,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cars")
 public class Car {
@@ -35,7 +37,7 @@ public class Car {
     @Length(max = 4)
     @NotNull
     @Column(length = 4, nullable = false)
-    private String yearCar;
+    private Integer yearCar;
 
     @NotBlank
     @Length(max = 15)

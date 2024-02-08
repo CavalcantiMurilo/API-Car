@@ -1,5 +1,4 @@
 package com.cars.carapi.service;
-
 import com.cars.carapi.model.CarDTO;
 import com.cars.carapi.model.CarMapper;
 import com.cars.carapi.repository.ICarRepository;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Validated
 @Service
