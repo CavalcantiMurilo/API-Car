@@ -1,36 +1,46 @@
 package com.cars.carapi.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
 
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "car")
+@Table(name = "cars")
 public class Car {
-
-    public Car(CarDTO car){
-        BeanUtils.copyProperties(car, this); //conecta Entity e DTO
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCar;
 
-    @Column(length = 15, nullable = false)
+    @NotBlank
+    @Length(max = 30)
+    @NotNull
+    @Column(length = 30, nullable = false)
     private String brandCar;
 
-    @Column(length = 15, nullable = false)
+    @NotBlank
+    @Length(max = 30)
+    @NotNull
+    @Column(length = 30, nullable = false)
     private String modelCar;
 
+    @NotBlank
+    @Length(max = 4)
+    @NotNull
     @Column(length = 4, nullable = false)
     private String yearCar;
 
-    @Column(length = 10, nullable = false)
+    @NotBlank
+    @Length(max = 15)
+    @NotNull
+    @Column(length = 15, nullable = false)
     private String colorCar;
 
 

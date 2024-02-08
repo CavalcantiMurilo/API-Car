@@ -1,15 +1,18 @@
 package com.cars.carapi;
 
-import com.cars.carapi.model.Car;
 import com.cars.carapi.model.CarDTO;
 import com.cars.carapi.service.CarService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
 
+@Validated //Executa as validação dos parâmetros
 @RestController
 @RequestMapping("/api/cars")
 public class CarController {
@@ -25,26 +28,25 @@ public class CarController {
 
     @CrossOrigin
     @PostMapping
-    public void createCar(@RequestBody CarDTO car) {
-        carService.createCar(car);
+    public CarDTO createCar(@RequestBody @Valid @NotNull CarDTO car) {
+        return carService.createCar(car);
     }
 
     @CrossOrigin
-    @PutMapping
-    public CarDTO updateCar(@RequestBody CarDTO car) {
-        return carService.updateCar(car);
+    @PutMapping("/{id}")
+    public CarDTO updateCar(@PathVariable @NotNull @Positive Long id,@RequestBody @Valid CarDTO car) {
+        return carService.updateCar(id, car);
     }
 
     @CrossOrigin
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
+    public void deleteCar(@PathVariable @NotNull @Positive Long id) {
         carService.deleteCar(id);
-        return ResponseEntity.ok().build();
     }
 
     @CrossOrigin
     @GetMapping("/{id}")
-    public CarDTO listById(@PathVariable Long id) {
+    public CarDTO listById(@PathVariable @NotNull @Positive Long id) {
         return carService.listById(id);
     }
 }

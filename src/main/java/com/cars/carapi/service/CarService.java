@@ -1,55 +1,59 @@
 package com.cars.carapi.service;
 
-import com.cars.carapi.model.Car;
 import com.cars.carapi.model.CarDTO;
+import com.cars.carapi.model.CarMapper;
 import com.cars.carapi.repository.ICarRepository;
 
-import jakarta.transaction.Transactional;
-
+import com.cars.carapi.utils.exceptions.NotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Validated
 @Service
 public class CarService {
 
     @Autowired
     private ICarRepository carRepository;
 
+    @Autowired
+    private CarMapper carMapper;
+
     public List<CarDTO> listAll() {
-        List<Car> car = carRepository.findAll();
-        return car.stream().map(CarDTO::new).toList(); //percorre e converte para o DTO
+        //pega os registros, mapeia, transforma em DTO e retorna em lista
+        return carRepository.findAll().stream().map(car -> carMapper.toDTO(car)).toList();
     }
 
-    public void createCar(CarDTO car) {
-        Car carEntity = new Car(car);
-        carRepository.save(carEntity);
+    public CarDTO createCar(@Valid @NotNull CarDTO car) {
+
+        return carMapper.toDTO(carRepository.save(carMapper.toEntity(car)));
     }
 
-    public CarDTO updateCar(CarDTO car) {
-        Car carEntity = new Car(car);
-        return new CarDTO(this.carRepository.save(carEntity));
+    public CarDTO updateCar(@NotNull @Positive Long id, @Valid CarDTO car) {
+        return carRepository.findById(id).map(item ->{
+            item.setBrandCar(car.getBrandCar());
+            item.setModelCar(car.getModelCar());
+            item.setYearCar(car.getYearCar());
+            item.setColorCar(car.getColorCar());
+            return carMapper.toDTO(carRepository.save(item));
+        }).orElseThrow(() -> new NotFoundException(id));
     }
 
+    public void deleteCar( @NotNull @Positive Long id) {
 
-
-
-
-    public ResponseEntity<Void> deleteCar(Long id) {
-
-        return carRepository.findById(id).map(item -> {
-            carRepository.deleteById(id);
-            return ResponseEntity.noContent().<Void>build();
-        }).orElse(ResponseEntity.notFound().build());
-
+        carRepository.delete(carRepository.findById(id).orElseThrow(() -> new NotFoundException(id)));
     }
 
-    public CarDTO listById(Long id){
-        return new CarDTO(carRepository.findById(id).get());
+    public CarDTO listById(@NotNull @Positive Long id) {
+        return carRepository.findById(id).map(carMapper::toDTO)
+                .orElseThrow(() -> new NotFoundException(id));
     }
-
 
 }
