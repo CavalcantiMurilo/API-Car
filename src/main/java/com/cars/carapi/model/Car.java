@@ -37,13 +37,12 @@ public class Car {
     @Length(max = 4)
     @NotNull
     @Column(length = 4, nullable = false)
-    private Integer yearCar;
+    private String yearCar;
 
     @NotBlank
     @Length(max = 15)
     @NotNull
     @Column(length = 15, nullable = false)
     private String colorCar;
-
 
 }

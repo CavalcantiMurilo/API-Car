@@ -40,8 +40,8 @@ class CarServiceTest {
     @DisplayName("Should create a car in Database succesfully")
     void createCar() {
 
-        CarDTO carDTO = new CarDTO(1L, "Toyota", "Corolla", 2022, "Red");
-        Car carEntity = new Car(1L, "Toyota", "Corolla", 2022, "Red");
+        CarDTO carDTO = new CarDTO(1L, "Toyota", "Corolla", "2022", "Red");
+        Car carEntity = new Car(1L, "Toyota", "Corolla", "2022", "Red");
 
         //O que ele deve retornar quando o método do Mock for chamado
         when(carMapper.toDTO(carEntity)).thenReturn(carDTO);
@@ -65,8 +65,8 @@ class CarServiceTest {
     @DisplayName("Should get all registered cars in Database")
     void listAll() {
 
-        Car car1 = new Car(1L, "Chevrolet", "Prisma", 2018, "Red");
-        Car car2 = new Car(2L, "Nissan", "Kicks", 2020, "Brown");
+        Car car1 = new Car(1L, "Chevrolet", "Prisma", "2018", "Red");
+        Car car2 = new Car(2L, "Nissan", "Kicks", "2020", "Brown");
         List<Car> carList = new ArrayList<Car>();
         carList.add(car1);
         carList.add(car2);
@@ -74,8 +74,8 @@ class CarServiceTest {
         //O que ele deve retornar quando o método do Mock for chamado
         when(carRepository.findAll()).thenReturn(carList);
 
-        CarDTO carDto1 = new CarDTO(1L, "Chevrolet", "Prisma", 2018, "Silver");
-        CarDTO carDto2 = new CarDTO(2L, "Nissan", "Kicks", 2020, "Brown");
+        CarDTO carDto1 = new CarDTO(1L, "Chevrolet", "Prisma", "2018", "Silver");
+        CarDTO carDto2 = new CarDTO(2L, "Nissan", "Kicks", "2020", "Brown");
         List<CarDTO> dtoList = new ArrayList<CarDTO>();
 
         dtoList.add(carDto1);
@@ -105,8 +105,8 @@ class CarServiceTest {
     @Test
     @DisplayName("Should update a registered car by informed id")
     void updateCarSuccess() {
-        CarDTO updatedCarDTO = new CarDTO(1L, "Chevrolet", "Prisma", 2018, "Silver");
-        Car updatedCarEntity = new Car(1L, "Chevrolet", "Prisma", 2018, "Silver");
+        CarDTO updatedCarDTO = new CarDTO(1L, "Chevrolet", "Prisma", "2018", "Silver");
+        Car updatedCarEntity = new Car(1L, "Chevrolet", "Prisma", "2018", "Silver");
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(updatedCarEntity));
         when(carRepository.save(updatedCarEntity)).thenReturn(updatedCarEntity);
@@ -125,7 +125,7 @@ class CarServiceTest {
     @DisplayName("Should throw exception when informed id is not found")
     void updateCarFailure() {
 
-        CarDTO updatedCarDTO = new CarDTO(1L, "Chevrolet", "Prisma", 2018, "Silver");
+        CarDTO updatedCarDTO = new CarDTO(1L, "Chevrolet", "Prisma", "2018", "Silver");
 
         //Retorna vazio ao não encontro do ID
         when(carRepository.findById(1L)).thenReturn(Optional.empty());
@@ -139,7 +139,7 @@ class CarServiceTest {
     @Test
     @DisplayName("Should be able to delete an registered ID succesfully")
     void deleteCarSuccess() {
-        Car car = new Car(1L, "Chevrolet", "Prisma", 2018, "Silver");
+        Car car = new Car(1L, "Chevrolet", "Prisma", "2022", "Silver");
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
 
@@ -167,8 +167,8 @@ class CarServiceTest {
     @Test
     @DisplayName("Should succesfully list registered cars by id")
     void listByIdSuccess(){
-        Car car = new Car(1L, "Chevrolet", "Prisma", 2018, "Silver");
-        CarDTO carDto = new CarDTO(2L, "Chevrolet", "Prisma", 2018, "White");
+        Car car = new Car(1L, "Chevrolet", "Prisma", "2018", "Silver");
+        CarDTO carDto = new CarDTO(2L, "Chevrolet", "Prisma", "2018", "White");
 
 
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
@@ -187,7 +187,7 @@ class CarServiceTest {
     @DisplayName("Should throw right exception when id not founded")
     void ListByIdFailure() {
 
-        Car car = new Car(1L, "Chevrolet", "Prisma", 2018, "Silver");
+        Car car = new Car(1L, "Chevrolet", "Prisma", "2018", "Silver");
 
         //Setando um id não existente
         when(carRepository.findById(2L)).thenReturn(Optional.empty());

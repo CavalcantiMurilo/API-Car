@@ -18,7 +18,7 @@ public class CarDTO {
 
     private String modelCar;
 
-    private Integer yearCar;
+    private String yearCar;
 
     private String colorCar;
 

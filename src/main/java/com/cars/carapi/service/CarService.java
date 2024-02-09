@@ -29,7 +29,6 @@ public class CarService {
     }
 
     public CarDTO createCar(@Valid @NotNull CarDTO car) {
-
         return carMapper.toDTO(carRepository.save(carMapper.toEntity(car)));
     }
 
